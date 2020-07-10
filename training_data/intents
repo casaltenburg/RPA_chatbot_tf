@@ -1,0 +1,75 @@
+{"intents": [
+        {"tag": "ZZP",
+         "patterns": ["ZZP", "zzp", "ZZZP", "Zelfstandig", "Zelfstandig zonder personeel","eenmanszaak"],
+         "responses": ["Wilt u een aanvraag indienen voor een inkomensaanvulling of een lening?"]
+        },
+        {"tag": "BV",
+         "patterns": ["BV", "bv", "Besloten vennootschap"],
+         "responses": ["We verwijzen u graag door naar ; https://www.rvo.nl/subsidie-en-financieringswijzer/togs"]
+        },
+        {"tag": "NV",
+         "patterns": ["NV", "nv", "naamloos vennootschap"],
+         "responses": ["We verwijzen u graag door naar ; https://www.rvo.nl/subsidie-en-financieringswijzer/togs"]
+        },
+        {"tag": "stichting",
+         "patterns": ["stichting, Stichting"],
+         "responses": ["We verwijzen u graag door naar ; https://www.rvo.nl/subsidie-en-financieringswijzer/togs"]
+        },
+        {"tag": "inkomensaanvulling",
+         "patterns": ["Inkomensaanvulling","aanvulling"],
+         "responses": ["Is je inkomen naar verwachting beneden of boven het voor jou geldende sociaal minimum en dit is een gevolg van de coronacrisis?"],
+          "context_set": "inkomensaanvulling"
+        },
+        {"tag": "lening",
+         "patterns": ["Lening","Lening"],
+         "responses": ["Is je inkomen naar verwachting beneden of boven het voor jou geldende sociaal minimum en dit is een gevolg van de coronacrisis?"],
+          "context_set": "lening"
+        },
+        {"tag": "beneden",
+         "patterns": ["Daaronder", "Beneden","Klopt"],
+         "responses": ["Test-Inkomensaanvulling-Wat is de nationaliteit van de rechtspersoon of het bedrijf?"],
+          "context_filter": "inkomensaanvulling"
+        },
+        {"tag": "beneden",
+         "patterns": ["Daaronder", "Beneden", "Onder"],
+         "responses": ["Test-Lening Wat is de nationaliteit van de rechtspersoon of het bedrijf?"],
+          "context_filter": "lening"
+        },
+        {"tag": "boven",
+         "patterns": ["Daarboven", "Boven","Fout"],
+         "responses": ["Helaas, u komt niet in aanmerking voor een van de regelingen.Dit is het einde van het gesprek."],
+          "context_filter": "inkomensaanvulling"
+        },
+        {"tag": "boven",
+         "patterns": ["Daarboven", "Boven","Fout"],
+         "responses": ["Helaas, u komt niet in aanmerking voor een van de regelingen.Dit is het einde van het gesprek."],
+          "context_filter": "lening"
+        },
+        {"tag": "nationaliteit",
+         "patterns": ["Nederlands", "Hollands"],
+         "responses": ["Is uw omzetsverlies groter of kleiner dan 50% t.o.v. 1 januari 2020?"],
+          "context_filter": "lening"
+        },
+        {"tag": "nationaliteit",
+         "patterns": ["Nederlands", "Hollands"],
+         "responses": ["Moet uw inkomen aangevuld worden?"],
+          "context_filter": "inkomensaanvulling"
+        },
+        {"tag": "groter",
+         "patterns": ["Groter", "Hoger"],
+         "responses": ["U komt in aanmerking voor een lening. We zullen het aanvraagformulier nu naar u mailen. Dit is het einde van het gesprek."],
+          "context_filter": "lening",
+          "robot_action": "sendEmail"
+        },
+        {"tag": "aanvulling",
+         "patterns": ["Ja", "Aanvullen"],
+         "responses": ["U komt in aanmerking voor een inkomensaanvulling. We zullen het aanvraagformulier nu naar u mailen. Dit is het einde van het gesprek."],
+          "context_filter": "inkomensaanvulling",
+          "robot_action": "sendEmail"
+        },
+	    {"tag": "noanswer",
+         "patterns": [""],
+         "responses": ["Sorry, ik snap niet helemaal wat je bedoeld", "Geef alstublieft meer informatie", "Sorry ik kan je hier nog niet mee helpen"]
+        }
+   ]
+}

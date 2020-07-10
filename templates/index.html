@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Chatbot Agium</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="../static/styles/style.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="path/to/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+    <script type="text/javascript" src="../static/scripts/buttonScript.js"></script>
+</head>
+<body>
+<button type="button" id="btnChatbot" onclick="openChatbot()">
+    <i class="material-icons">face</i>
+</button>
+
+<div class="container" id="chatbotContainer">
+    <div class="msg-header">
+        <div class="msg-header-img">
+            <img src="../static/images/mathieu.jpg">
+        </div>
+        <div class="active">
+            <h4>Mathieu Belt</h4>
+        </div>
+        <button type="button" id="closeButton" onclick="closeForm()">
+            <i class="material-icons">close</i>
+        </button>
+    </div>
+    <div class="chat-dialogue">
+        <div class="msg-inbox">
+            <div class="chats">
+                <div class="msg-page">
+                    <div class="=received-chats">
+                        <div class="received-chats-msg">
+                            <div class="received-chats-inbox">
+                                <p>Hallo goedemiddag , ik ben de bot die u gaat helpen met uw COVID-19 tegemoetkomings aanvraag. Allereerst, wat is uw e-mail?  </p>
+                                <span class="time">11:01 | 15 April</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="msg-bottom">
+        <form class="input-group">
+            <input type="text" class="form-control" placeholder="write message...">
+            <div class="input-group-append">
+                <span class="input-group-text">
+                    <button type="submit" id="sendButton">
+                        <i class="material-icons">send</i>
+                    </button>
+                </span>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+
+    const msgerForm = get(".input-group");
+    const msgerInput = get(".form-control");
+    const msgerChat = get(".msg-page");
+
+
+    msgerForm.addEventListener("submit", event => {
+        event.preventDefault();
+
+        const msgText = msgerInput.value;
+        if (!msgText) return;
+
+        appendMessage("outgoing-chats", msgText);
+        msgerInput.value = "";
+        botResponse(msgText);
+    });
+
+    function appendMessage(side, text) {
+
+        const msgHTML = `<div class=${side}>\n` +
+            `                        <div class="${side}-msg">\n` +
+            `                            <div class="${side}-inbox">\n` +
+            `                                <p>${text}</p>\n` +
+            `                                <span class="time">${formatDate(new Date())}</span>\n` +
+            `                            </div>\n` +
+            `                        </div>\n` +
+            `                    </div>`;
+
+        msgerChat.insertAdjacentHTML("beforeend", msgHTML);
+        msgerChat.scrollTop += 500;
+    }
+
+    function botResponse(rawText) {
+
+        // Bot Response
+        $.get("/get", {msg: rawText}).done(function (data) {
+            console.log(rawText);
+            console.log(data);
+            const msgText = data;
+            appendMessage("received-chats", msgText);
+        });
+
+    }
+
+    function get(selector, root = document) {
+        return root.querySelector(selector);
+    }
+
+    function formatDate(date) {
+        const h = "0" + date.getHours();
+        const m = "0" + date.getMinutes();
+
+        return `${h.slice(-2)}:${m.slice(-2)}`;
+    }
+
+
+</script>
+
+</body>
+</html>
